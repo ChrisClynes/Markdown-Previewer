@@ -1,4 +1,8 @@
-import marked from 'marked';
+//takes markdown text and converts it to markdown, added breaks property and set it to true so allow <br>.
+marked.setOptions({
+  breaks: true
+})
+const renderer = new marked.Renderer();
 
 class App extends React.Component {
     constructor(props) {
@@ -17,8 +21,8 @@ class App extends React.Component {
     }
     
     render() {
-      const markText = this.state.markText;
-      const markdown = marked(markText, {breaks: true});//takes markdown text and converts it to markdown, added breaks property and set it to true so allow <br>.
+      const markdown = this.state.markText;
+      
       
       return(
         <div>
@@ -30,14 +34,15 @@ class App extends React.Component {
             </div>
             <div id="previewDiv">
               <h5 className="mt-4 text-center">Previewer</h5>
-              <div className="preview rounded p-4 mb-4" id="preview" dangerouslySetInnerHTML={{__html: markdown}}/>{/*sets markdown as inner html*/} 
+              <div className="preview rounded p-4 mb-4" id="preview" dangerouslySetInnerHTML={{__html: marked(markdown, { renderer: renderer }),
+            }}/>{/*sets markdown as inner html*/} 
             </div>
           </div>   
         </div>
       );
     }
   }
-  var marked = require('marked');
+  
   const markdownDefault = `# Welcome to my React Markdown Previewer!
   
   ## This is a sub-heading...
